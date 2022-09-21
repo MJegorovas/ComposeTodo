@@ -23,6 +23,10 @@ fun <T> Flow<T>.asAsyncIterable(context: CoroutineContext): IteratorAsync<T> = o
         if (started != null && started.isActive) {
             started.resumeWithException(CancellationException("Canceled upon user request"))
         }
+        val scopeCoroutine = cont?.context
+        if (scopeCoroutine != null && scopeCoroutine.isActive) {
+            scopeCoroutine.cancel()
+        }
     }
 
     override suspend fun next(): T? {

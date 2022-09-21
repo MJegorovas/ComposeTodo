@@ -28,9 +28,9 @@ struct FlowStream<T>: AsyncSequence {
                 do {
                     let next = try await iterator.next()
                     if (next == nil) {
-                        return Optional.none
+                        return next as? T
                     } else {
-                        return Optional.some(next as! T)
+                        return (next as! T)
                     }
                 } catch let error as NSError {
                     let kotlinException = error.kotlinException
